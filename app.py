@@ -3,9 +3,19 @@ import tensorflow as tf
 import numpy as np
 from PIL import Image
 import io
+import gdown
+import os
 
 app = FastAPI()
-model = tf.keras.models.load_model("my_model.h5")
+
+MODEL_PATH = "my_model.h5"
+FILE_ID = "1goyY8DHvX3dXkvW3q4bPV4lzmEW9M8iY"
+
+if not os.path.exists(MODEL_PATH):
+    print("Downloading model from Google Drive...")
+    gdown.download(f"https://drive.google.com/uc?id={FILE_ID}", MODEL_PATH, quiet=False)
+
+model = tf.keras.models.load_model(MODEL_PATH)
 
 @app.get("/")
 def home():
